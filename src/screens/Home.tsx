@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     welcomeImage: {
-      flex: 0.6,
+      flex: 0.4,
       width,
-      height
+      height: height * 0.5
     }
 })
