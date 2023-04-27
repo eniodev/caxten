@@ -11,7 +11,7 @@ export default function NavigationConfig() {
     <Stack.Navigator screenOptions={{headerShown: false}}>
      
       <Stack.Screen name="Slider" component={Slider} />
-      <Stack.Screen name='Profile' component={Profile} />
+      <Stack.Screen name='Profile' component={Profile}  options={{ gestureEnabled: false }}/>
       <Stack.Group>
         <Stack.Screen name="Login" component={Login} />
         
