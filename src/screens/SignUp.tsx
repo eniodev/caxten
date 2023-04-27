@@ -38,31 +38,38 @@ const SignUp = () => {
 
   
   function handleLogin() {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-    
-    var urlencoded = new URLSearchParams();
-    urlencoded.append("email", `${credentials.email}`);
-    urlencoded.append("password", `${credentials.password}`);
-    urlencoded.append("signature", "1");
-    
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: urlencoded,
-      redirect: 'follow'
-    };
-    
-    fetch("https://app.caxten.com/api/register", requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        console.log(result);
-        navigation.navigate('Home', {result});
-      })
-      .catch(error => {
-        setError(true);
-        console.log('error', error)
-      });
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(regex.test(credentials.email) && credentials.password.length > 5){
+      setError(false);
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+      
+      var urlencoded = new URLSearchParams();
+      urlencoded.append("email", `${credentials.email}`);
+      urlencoded.append("password", `${credentials.password}`);
+      urlencoded.append("signature", "1");
+      
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+      };
+      
+      fetch("https://app.caxten.com/api/register", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          console.log(result);
+          navigation.navigate('Home', {result});
+        })
+        .catch(error => {
+          setError(true);
+          console.log('error', error)
+        });    
+    }
+    else setError(true);
+
+
 }
 
 
@@ -106,7 +113,7 @@ const SignUp = () => {
 
         <>
           {error ? (
-          <Text style={styles.errorText}>Por favor, verifique os seus dados</Text>
+          <Text style={styles.errorText}>Email ou senha inválidos</Text>
           ) : null}
         </>
        <SwitchAuth title='Iniciar Sessão' onPress={() => navigation.navigate('Login')}/>
