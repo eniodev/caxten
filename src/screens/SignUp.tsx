@@ -15,6 +15,7 @@ const { width, height } = Dimensions.get('screen');
 const SignUp = () => {  
     const [error, setError] = useState(false);
     const navigation = useNavigation();  
+    const [serverMessage, setServerMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [credentials, setCredentials] = useState<CredentialsProps>({
       email: '',
@@ -37,9 +38,11 @@ const SignUp = () => {
 
 
   
-  function handleLogin() {
+  async function handleLogin() {
+
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if(regex.test(credentials.email) && credentials.password.length > 5){
+      if(credentials.email) console.log(credentials.email)
       setError(false);
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -56,17 +59,21 @@ const SignUp = () => {
         redirect: 'follow'
       };
       
-      fetch("https://app.caxten.com/api/register", requestOptions)
-        .then(response => response.text())
-        .then(result => {
-          console.log(result);
-          navigation.navigate('Home', {result});
+      await fetch("https://app.caxten.com/api/register", requestOptions)
+        .then(response =>   { return response.json() })
+        .then(data => {
+          console.log(data);
+          if (!('errors' in data)) {
+            navigation.navigate('Home', {data});
+          }
+          else setServerMessage(data.errors.message);
         })
         .catch(error => {
           setError(true);
-          console.log('error', error)
+          console.log('error', error);
         });    
     }
+
     else setError(true);
 
 
@@ -116,6 +123,13 @@ const SignUp = () => {
           <Text style={styles.errorText}>Email ou senha inválidos</Text>
           ) : null}
         </>
+
+        <>
+          {(!(error) && serverMessage) && (
+          <Text style={styles.errorText}>{serverMessage}</Text>
+          )}
+        </>
+
        <SwitchAuth title='Iniciar Sessão' onPress={() => navigation.navigate('Login')}/>
        <Button title='Criar Conta' onPress={() => handleLogin()} />
       
