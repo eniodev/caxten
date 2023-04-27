@@ -8,13 +8,14 @@ type ButtonProps = TouchableOpacityProps & {
 };
 
 
-const Button: FC<ButtonProps> = ({ onPress, title, ...props }) => {
+const SwitchAuth: FC<ButtonProps> = ({ onPress, title, ...props }) => {
 
     const navigation = useNavigation();
 
     return (
       <TouchableOpacity 
         style={styles.button}
+        //@ts-ignore
         onPress={onPress}
         {...props}
         >
@@ -25,22 +26,19 @@ const Button: FC<ButtonProps> = ({ onPress, title, ...props }) => {
     )  
 }
 
-export default Button;
+export default SwitchAuth;
 
 const styles = StyleSheet.create({
     button: {
-      width: '90%',
-      height: 50,
-      position: 'absolute',
-      bottom: 35,
-      backgroundColor: '#222',
+      paddingHorizontal: 15,
+      paddingVertical: 10,
+      backgroundColor: 'rgba(0,0,0,0.05)',
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: 8
+      borderRadius: 50,
+      marginTop: 20
     },
     buttonText: {
-      color: '#fff',
-      fontWeight: '900'
+      color: '#999',
     }
   });
-  

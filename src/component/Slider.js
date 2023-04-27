@@ -7,7 +7,7 @@ import Pagination from './Pagination';
 import Button from './GetStarted';
 
 const Slider = () => {
-
+  const navigation = useNavigation();
   const [index, setIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -51,7 +51,7 @@ const Slider = () => {
         onViewableItemsChanged={handleOnViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
       />
-      <Button title={'Experimentar'}/>
+      <Button title={'Experimentar'} onPress={() => navigation.navigate('Login')}/>
       <Pagination data={Slides} scrollX={scrollX} index={index} />
       
     </View>

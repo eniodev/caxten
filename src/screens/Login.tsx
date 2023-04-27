@@ -3,6 +3,8 @@ import { useNavigation } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState } from 'react';
 import axios from 'axios';
+import SwitchAuth from '../component/SwitchAuth';
+import Button from '../component/GetStarted';
 
 interface CredentialsProps {
   email: string,
@@ -102,15 +104,9 @@ const Login = () => {
           <Text style={styles.errorText}>Oops! os seus dados estão incorrectos.</Text>
           ) : null}
         </>
-       
-      <TouchableOpacity  
-        onPress={() => handleLogin()}
-        style={styles.button}
-        >
-        <Text style={styles.buttonText}>
-          Iniciar Sessão
-        </Text>
-      </TouchableOpacity>
+       <SwitchAuth title='Criar conta' onPress={() => {}}/>
+       <Button title='Iniciar Sessão' onPress={() => handleLogin()} />
+      
     </View>
   )
 }
@@ -142,20 +138,6 @@ const styles = StyleSheet.create({
     height, 
     width,
     marginTop: 50
-  },
-  button: {
-    width: '90%',
-    height: 50,
-    position: 'absolute',
-    bottom: 35,
-    backgroundColor: '#222',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 8
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: '900'
   },
   inputError: {
     borderColor: 'red',
