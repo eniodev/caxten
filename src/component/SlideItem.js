@@ -40,11 +40,10 @@ const SlideItem = ({item}) => {
       <View style={styles.content}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.description}>{item.description}</Text>
-        <Text style={styles.price}>{item.price}</Text>
+
       </View>
     </View>
-  );
-};
+  )};
 
 export default SlideItem;
 
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
     width,
     height,
     alignItems: 'center',
-    marginTop: 30
+    marginTop: 60
   },
   image: {
     flex: 0.5,
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   description: {
-    fontSize: 18,
+    fontSize: 16,
     marginVertical: 12,
     color: '#333',
   },

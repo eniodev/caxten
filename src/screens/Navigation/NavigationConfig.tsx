@@ -3,6 +3,8 @@ import Slider from '../../component/Slider';
 import Login from '../Login';
 import Welcome from '../Welcome';
 import Profile from '../Profile';
+import SignUp from '../SignUp';
+import Home from '../Home';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,9 +14,10 @@ export default function NavigationConfig() {
      
       <Stack.Screen name="Slider" component={Slider} />
       <Stack.Screen name='Profile' component={Profile}  options={{ gestureEnabled: false }}/>
+      <Stack.Screen name='SignUp' component={SignUp} />
+      <Stack.Screen name='Home' component={Home} />
       <Stack.Group>
-        <Stack.Screen name="Login" component={Login} />
-        
+        <Stack.Screen name="Login" component={Login} />  
       </Stack.Group>
       
     </Stack.Navigator>

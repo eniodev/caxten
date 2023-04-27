@@ -2,7 +2,6 @@ import { View, Text, TextInput, Image, StyleSheet, Dimensions, TouchableOpacity 
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React, { useState } from 'react';
-import axios from 'axios';
 import SwitchAuth from '../component/SwitchAuth';
 import Button from '../component/GetStarted';
 
@@ -11,10 +10,9 @@ interface CredentialsProps {
   password: string
 }
 
-
 const { width, height } = Dimensions.get('screen');
 
-const Login = () => {  
+const SignUp = () => {  
     const [error, setError] = useState(false);
     const navigation = useNavigation();  
     const [showPassword, setShowPassword] = useState(false);
@@ -40,31 +38,38 @@ const Login = () => {
 
   
   function handleLogin() {
-
-
-    axios.get('https://app.caxten.com/api/web/authenticate', {
-      headers: {
-        email: `${credentials.email}`,
-        password: `${credentials.password}`
-      }
-    })
-      .then(response => {
-       console.log(response.data.accepted);
-       if(response.status===200 && response.data) {
-        const user = response.data;
-        navigation.navigate('Profile', {user});
-       }
-        
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("email", `${credentials.email}`);
+    urlencoded.append("password", `${credentials.password}`);
+    urlencoded.append("signature", "1");
+    
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: 'follow'
+    };
+    
+    fetch("https://app.caxten.com/api/register", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        console.log(result);
+        navigation.navigate('Home', {result});
       })
       .catch(error => {
         setError(true);
+        console.log('error', error)
       });
-  }
+}
+
 
   return (
     <View style={styles.container}>
       <Image 
-      source={require('../assets/fourteen.png')}
+      source={require('../assets/twelve.png')}
       style={styles.loginImage}
       />
       <TextInput 
@@ -101,11 +106,11 @@ const Login = () => {
 
         <>
           {error ? (
-          <Text style={styles.errorText}>Oops! os seus dados estão incorrectos.</Text>
+          <Text style={styles.errorText}>Por favor, verifique os seus dados</Text>
           ) : null}
         </>
-       <SwitchAuth title='Criar conta' onPress={() => navigation.navigate('SignUp')}/>
-       <Button title='Iniciar Sessão' onPress={() => handleLogin()} />
+       <SwitchAuth title='Iniciar Sessão' onPress={() => navigation.navigate('Login')}/>
+       <Button title='Criar Conta' onPress={() => handleLogin()} />
       
     </View>
   )
@@ -150,4 +155,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Login
+export default SignUp
