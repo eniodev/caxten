@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import Button from '../component/GetStarted'
 
-import React from 'react'
+
+const { width, height } = Dimensions.get('screen'); 
 
 
 
@@ -19,7 +20,8 @@ const Profile = () => {
 
   return (
     <View style={styles.container}>
-      <Text>Perfil</Text>
+      <Image source={require('../assets/ten.png')} style={styles.welcomeImage} />
+      <Text>Hey! Você conseguiu entrar...</Text>
       <Button title='Sair' onPress={() => navigation.goBack()} />
     </View>
   )
@@ -32,5 +34,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    welcomeImage: {
+      flex: 0.6,
+      width,
+      height
     }
 })

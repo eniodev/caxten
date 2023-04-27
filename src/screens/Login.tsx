@@ -9,10 +9,11 @@ interface CredentialsProps {
   password: string
 }
 
+
 const { width, height } = Dimensions.get('screen');
 
 const Login = () => {  
-    const [logged, setLogged] = useState(false);
+    const [error, setError] = useState(false);
     const navigation = useNavigation();  
     const [showPassword, setShowPassword] = useState(false);
     const [credentials, setCredentials] = useState<CredentialsProps>({
@@ -25,10 +26,12 @@ const Login = () => {
     };
 
     const handleEmail = (email: string) => {
+      setError(false);
       setCredentials({...credentials, email: email});
     }
 
     const handlePassword = (password: string) => {
+      setError(false);
       setCredentials({...credentials, password: password});
     }
 
@@ -46,14 +49,13 @@ const Login = () => {
       .then(response => {
        console.log(response.data.accepted);
        if(response.status===200 && response.data) {
-        setLogged(true);
         const user = response.data;
         navigation.navigate('Profile', {user});
        }
         
       })
       .catch(error => {
-        console.log(error);
+        setError(true);
       });
   }
 
@@ -65,7 +67,7 @@ const Login = () => {
       />
       <TextInput 
         placeholder='Email' 
-        style={styles.input}
+        style={[styles.input, error && styles.inputError]}
         keyboardType="email-address"
         onChangeText={handleEmail}
         />
@@ -75,14 +77,16 @@ const Login = () => {
         {flexDirection: 'row', 
         alignItems: 'center', 
         justifyContent: 'space-between'
-        }]}>
+        }, error && styles.inputError]}>
       
       <TextInput 
         placeholder='Password' 
-        style={{width: '90%'}}
+        style={[{width: '90%'}, error && {color: 'red'}]}
         secureTextEntry={!showPassword}
         onChangeText={handlePassword}
         />
+
+     
 
       <TouchableOpacity onPress={toggleShowPassword}>
           <Ionicons 
@@ -91,10 +95,14 @@ const Login = () => {
             color="#ccc" 
             />
       </TouchableOpacity>
-      
-      
       </View>
-      
+
+        <>
+          {error ? (
+          <Text style={styles.errorText}>Oops! os seus dados estão incorrectos.</Text>
+          ) : null}
+        </>
+       
       <TouchableOpacity  
         onPress={() => handleLogin()}
         style={styles.button}
@@ -148,7 +156,16 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontWeight: '900'
-  }
+  },
+  inputError: {
+    borderColor: 'red',
+    color: 'red'
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginTop: 10
+  },
 })
 
 export default Login
