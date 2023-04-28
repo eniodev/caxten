@@ -137,7 +137,8 @@ const styles = StyleSheet.create({
     flex: 0.7, 
     height, 
     width,
-    marginTop: 50
+    marginTop: 50,
+    resizeMode: 'contain'
   },
   inputError: {
     borderColor: 'red',

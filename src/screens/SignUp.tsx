@@ -1,7 +1,7 @@
-import { View, Text, TextInput, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Keyboard, Image, Animated, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SwitchAuth from '../component/SwitchAuth';
 import Button from '../component/GetStarted';
 
@@ -12,16 +12,18 @@ interface CredentialsProps {
 
 const { width, height } = Dimensions.get('screen');
 
-const SignUp = () => {  
+const SignUp = () => {
     const [error, setError] = useState(false);
-    const navigation = useNavigation();  
+    const navigation = useNavigation();
     const [serverMessage, setServerMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [credentials, setCredentials] = useState<CredentialsProps>({
-      email: '',
-      password: 'teste@gmail.com'
-    }) 
-    
+        email: 'teste@gmail.com',
+      password: ''
+    })
+
+
+
     const toggleShowPassword = () => {
       setShowPassword(!showPassword);
     };
@@ -32,33 +34,34 @@ const SignUp = () => {
     }
 
     const handlePassword = (password: string) => {
-      setError(false);
+      setError(false)
       setCredentials({...credentials, password: password});
     }
 
 
-  
+
   async function handleLogin() {
 
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if(regex.test(credentials.email) && credentials.password.length > 5){
       if(credentials.email) console.log(credentials.email)
       setError(false);
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-      
+
       var urlencoded = new URLSearchParams();
       urlencoded.append("email", `${credentials.email}`);
       urlencoded.append("password", `${credentials.password}`);
       urlencoded.append("signature", "1");
-      
+
       var requestOptions = {
         method: 'POST',
         headers: myHeaders,
         body: urlencoded,
         redirect: 'follow'
       };
-      
+
       await fetch("https://app.caxten.com/api/register", requestOptions)
         .then(response =>   { return response.json() })
         .then(data => {
@@ -71,7 +74,7 @@ const SignUp = () => {
         .catch(error => {
           setError(true);
           console.log('error', error);
-        });    
+        });
     }
     else setError(true);
 }
@@ -79,38 +82,38 @@ const SignUp = () => {
 
   return (
     <View style={styles.container}>
-      <Image 
+      <Image
       source={require('../assets/twelve.png')}
       style={styles.loginImage}
       />
-      <TextInput 
-        placeholder='Email' 
+      <TextInput
+        placeholder='Email'
         style={[styles.input, error && styles.inputError]}
         keyboardType="email-address"
         onChangeText={handleEmail}
         />
-      
+
       <View style={
-        [styles.input, 
-        {flexDirection: 'row', 
-        alignItems: 'center', 
+        [styles.input,
+        {flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between'
         }, error && styles.inputError]}>
-      
-      <TextInput 
-        placeholder='Password' 
+
+      <TextInput
+        placeholder='Password'
         style={[{width: '90%'}, error && {color: 'red'}]}
         secureTextEntry={!showPassword}
         onChangeText={handlePassword}
         />
 
-     
+
 
       <TouchableOpacity onPress={toggleShowPassword}>
-          <Ionicons 
-            name= { showPassword ? "eye-outline" : "eye-off-outline" } 
-            size={16} 
-            color="#ccc" 
+          <Ionicons
+            name= { showPassword ? "eye-outline" : "eye-off-outline" }
+            size={16}
+            color="#ccc"
             />
       </TouchableOpacity>
       </View>
@@ -129,7 +132,7 @@ const SignUp = () => {
 
        <SwitchAuth title='Iniciar Sessão' onPress={() => navigation.navigate('Login')}/>
        <Button title='Criar Conta' onPress={() => handleLogin()} />
-      
+
     </View>
   )
 }
@@ -157,10 +160,11 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   loginImage: {
-    flex: 0.7, 
-    height, 
+    flex: 0.7,
+    height,
     width,
-    marginTop: 50
+    marginTop: 50,
+    resizeMode: 'contain'
   },
   inputError: {
     borderColor: 'red',
