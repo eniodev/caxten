@@ -6,11 +6,11 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import React from 'react';
+import React, { memo } from 'react';
 
 const {width, height} = Dimensions.get('screen');
 
-const SlideItem = ({item}) => {
+const SlideItem = memo(({item}) => {
   const translateYImage = new Animated.Value(40);
 
   Animated.timing(translateYImage, {
@@ -43,7 +43,7 @@ const SlideItem = ({item}) => {
 
       </View>
     </View>
-  )};
+  )});
 
 export default SlideItem;
 

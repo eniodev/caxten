@@ -19,7 +19,7 @@ const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [credentials, setCredentials] = useState<CredentialsProps>({
       email: '',
-      password: ''
+      password: 'teste@gmail.com'
     }) 
     
     const toggleShowPassword = () => {
@@ -73,10 +73,7 @@ const SignUp = () => {
           console.log('error', error);
         });    
     }
-
     else setError(true);
-
-
 }
 
 
