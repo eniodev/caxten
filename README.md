@@ -4,10 +4,10 @@ Este documento descreve os passos necessários para rodar o projeto Caxten em am
 Pré-requisitos
 Antes de prosseguir com os passos de instalação, certifique-se de que os seguintes programas estejam instalados em seu computador:
 
-- Node.js (versão 14 ou superior)
-- NPM (versão 1 ou superior)
-- Expo CLI (versão 4 ou superior)
-- Emulador de Android ou iOS (opcional)
+- Node.js (versão 14 ou superior): https://nodejs.org/en/download/
+- NPM (versão 1 ou superior): https://www.npmjs.com/get-npm
+- Expo CLI (versão 4 ou superior): https://docs.expo.io/get-started/installation/
+- Expo Go(Opcional): https://expo.dev/client/
 
 ## Instalação
 1. Clone o repositório do projeto em sua máquina usando o seguinte comando:
